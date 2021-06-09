@@ -4,20 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import at.tu.graz.coffee.R
-import at.tu.graz.coffee.javaHelper.EmailSender
-import kotlinx.android.synthetic.main.fragment_support.*
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import at.tu.graz.coffee.R
+import at.tu.graz.coffee.businessLogic.EmailSender
+import kotlinx.android.synthetic.main.fragment_support.*
 
 class SupportViewFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_support, container, false)
     }
@@ -28,20 +26,17 @@ class SupportViewFragment : Fragment() {
         btn_sendEmail?.setOnClickListener {
             val id: Int = radio_group.checkedRadioButtonId
 
-            var emailToSend = "john.tusha@student.tugraz.at"
-            if (id == rdbtn_Owner.id) {
-                emailToSend = "smartcoffeehelp@gmail.com"
-            };
-            else {
-                emailToSend = "smartcoffeehelp@gmail.com"
+            val emailToSend = if (id == rdbtn_Owner.id) {
+                "smartcoffeehelp@gmail.com"
+            } else {
+                "smartcoffeehelp@gmail.com"
             }
 
-            val sender = EmailSender()
-            sender.execute(emailToSend, txt_supportMsg.text.toString())
+            EmailSender().execute(emailToSend, txt_supportMsg.text.toString())
 
             txt_supportMsg.text.clear()
 
-            Toast.makeText(activity,R.string.emailConfirm,Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, R.string.emailConfirm, Toast.LENGTH_SHORT).show()
         }
     }
 }
